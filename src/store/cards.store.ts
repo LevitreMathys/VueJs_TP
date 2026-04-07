@@ -1,0 +1,15 @@
+// src/store/cards.store.ts
+import { defineStore } from 'pinia'
+
+import { useApi } from '@/composables/useApi'
+
+export const useCardsStore = defineStore('cards', () => {
+  const useAPI = useApi()
+  const getCards = async () => {
+    const response = await useAPI.getCards()
+
+    return response
+  }
+
+  return { getCards }
+})
