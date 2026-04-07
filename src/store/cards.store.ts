@@ -4,8 +4,8 @@ import { defineStore } from 'pinia'
 import { useApi } from '@/composables/useApi'
 
 export const useCardsStore = defineStore('cards', () => {
+  const useAPI = useApi()
   const getCards = async () => {
-    const useAPI = useApi()
     const response = await useAPI.getCards()
 
     return response

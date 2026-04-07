@@ -3,6 +3,7 @@
     <NMessageProvider>
       <NLayout has-sider style="height: 100vh">
         <NLayoutSider
+          v-if="isAuthenticated"
           bordered
           collapse-mode="width"
           :collapsed-width="64"

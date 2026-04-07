@@ -1,7 +1,10 @@
 <template>
   <div class="container">
-    <NEmpty v-if="isLoading" description="Chargement des cartes..." />
-
+    <NSpin v-if="isLoading" />
+    <NEmpty
+      v-else-if="cardsList.length === 0"
+      description="Aucune carte trouvée"
+    />
     <NGrid v-else cols="2 400:3 500:4 600:6">
       <NGridItem v-for="card in cardsList" :key="card.id">
         <PokemonCard :card="card" />
