@@ -61,7 +61,8 @@ export function useApi() {
     })
 
   /** Retourne toutes les cartes Pokémon disponibles. */
-  const getCards = () => request<Card[]>('/cards')
+  const getCards = () =>
+    request<{ cards: Card[] }>('/cards').then((data) => data.cards)
 
   /** Retourne les decks de l'utilisateur connecté. */
   const getMyDecks = () => request<Deck[]>('/decks/mine')

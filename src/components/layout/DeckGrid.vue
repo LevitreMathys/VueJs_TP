@@ -1,8 +1,11 @@
 <template>
   <div class="container">
-    <!-- <NEmpty description="Page d'accueil à implémenter (tickets 2 et 3)" /> -->
-
-    <NGrid v-if="!decksList" cols="2 400:3 500:4 600:6">
+    <NGrid
+      v-if="decksList.length > 0"
+      cols="2 400:3 500:4 600:6"
+      x-gap="12"
+      y-gap="12"
+    >
       <NGridItem v-for="deck in decksList" :key="deck.id">
         <DeckCard :deck="deck" />
       </NGridItem>
@@ -20,11 +23,22 @@ import type { Deck } from '@/types'
 
 import DeckCard from '../DeckCard.vue'
 
-const CardsStore = useDecksStore()
+const decksStore = useDecksStore()
 
 const decksList = ref<Deck[]>([])
 
+// onMounted(async () => {
+//   const data = await decksStore.getDecks()
+//   decksList.value = data
+// })
+
 onMounted(async () => {
-  decksList.value = await CardsStore.getDecks()
+  const data = await decksStore.getDecks()
+
+  if (data && data.deck) {
+    decksList.value = data.deck
+  } else {
+    decksList.value = Array.isArray(data) ? data : []
+  }
 })
 </script>

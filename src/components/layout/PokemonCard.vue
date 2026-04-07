@@ -1,12 +1,9 @@
 <template>
   <NCard
     :title="card.name"
-    :style="{
-      borderColor: isSelected ? '#00fe9c' : '',
-      backgroundColor: isSelected ? 'rgba(0, 254, 156, 0.15)' : '',
-      cursor: 'pointer',
-    }"
-    @click="isSelected = !isSelected"
+    class="pokemon-card"
+    :class="{ 'is-selected': selected, 'is-disabled': disabled }"
+    @click="!disabled || selected ? $emit('toggle') : null"
   >
     <img :src="card.imgUrl" :alt="card.name" />
     <p>#{{ card.pokedexNumber }}</p>
@@ -22,15 +19,14 @@
 </template>
 
 <script setup lang="ts">
-import { ref } from 'vue'
-
 import { type Card, POKEMON_TYPE_COLORS } from '@/types'
-
-const isSelected = ref(false)
-
 interface ShowCardProps {
   card: Card
+  selected: boolean
+  disabled: boolean
 }
+
+defineEmits(['toggle'])
 defineProps<ShowCardProps>()
 </script>
 
@@ -38,6 +34,36 @@ defineProps<ShowCardProps>()
 img {
   max-width: 100%;
   height: auto;
+}
+.pokemon-card {
+  cursor: pointer;
+  transition: all 0.3s ease;
+  position: relative;
+  border: 2px solid transparent;
+}
+
+.is-selected {
+  border-color: #18a058;
+  transform: translateY(-5px);
+}
+
+.is-disabled:not(.is-selected) {
+  opacity: 0.5;
+  filter: grayscale(1);
+  cursor: not-allowed;
+}
+
+.card-overlay {
+  position: absolute;
+  top: 5px;
+  right: 5px;
+  background: #18a058;
+  border-radius: 50%;
+  width: 24px;
+  height: 24px;
+  display: flex;
+  justify-content: center;
+  align-items: center;
 }
 
 :deep(.n-card) {
