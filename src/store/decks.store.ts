@@ -20,5 +20,14 @@ export const useDecksStore = defineStore('decks', () => {
     return response
   }
 
-  return { getDecks, createDeck }
+  const getDeckById = async (id: number) => {
+    const response = (await useAPI.getDeck(id)) as unknown as { deck: Deck }
+    return response.deck || response
+  }
+
+  const updateDeck = async (id: number, payload: DeckPayload) => {
+    return await useAPI.updateDeck(id, payload)
+  }
+
+  return { getDecks, createDeck, getDeckById, updateDeck }
 })
